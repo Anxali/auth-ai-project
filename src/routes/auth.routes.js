@@ -26,6 +26,10 @@ router.post('/register', async(req,res)=>{
         message: "User registered successfully",
         user
     });
+
+    const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET);
+    res.cookie('token', token)
+
 });
 
 

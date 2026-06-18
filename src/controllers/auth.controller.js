@@ -1,6 +1,7 @@
 const express = require('express');
 const userModel = require('../models/user.model');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 async function register(req, res) {
     const {username, password} = req.body;
@@ -13,7 +14,7 @@ async function register(req, res) {
             });
         }
     
-        const user = await userModel.create({username, password}); 
+        const user = await userModel.create({username, password: await bcrypt.hash(password, 10)}); 
 
         const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET);
         res.cookie('token', token);
@@ -38,7 +39,7 @@ async function login(req, res) {
         });
     }
 
-    const isPasswordValid = user.password === password;
+    const isPasswordValid = bcrypt.compare(password, user.password);
     if(!isPasswordValid){
         return res.status(400).json({
             success: false,
@@ -52,7 +53,7 @@ async function login(req, res) {
     res.status(200).json({
         success: true,
         message: "User logged in successfully",
-        user
+        username: user.username
     });
 }
 

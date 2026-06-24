@@ -13,4 +13,28 @@ async function main() {
   console.log(response.text);
 }
 
+const base64ImageFile = fs.readFileSync("path/to/small-sample.jpg", {
+  encoding: "base64",
+});
+
+function generateContent(base64ImageFile) {
+
+const interaction = await apiKey.interactions.create({
+    model: "gemini-3.5-flash",
+    input: [
+        {type: "text", text: "Caption this image."},
+        {
+            type: "image",
+            data: base64ImageFile,
+            mime_type: "image/jpeg"
+        }
+    ]
+});
+
+
+
+console.log(interaction.output_text);
+
+}
+
 main();

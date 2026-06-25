@@ -17,24 +17,25 @@ const base64ImageFile = fs.readFileSync("path/to/small-sample.jpg", {
   encoding: "base64",
 });
 
-function generateContent(base64ImageFile) {
+async function generateCaption(base64ImageFile) {
 
-const interaction = await apiKey.interactions.create({
+  const contents = [
+    {
+      inlineData: {
+        mimeType: "image/jpeg",
+        data: base64ImageFile,
+      },
+    },
+    { text: "Caption this image." },
+  ];
+
+  const response = await ai.models.generateContent({
     model: "gemini-3.5-flash",
-    input: [
-        {type: "text", text: "Caption this image."},
-        {
-            type: "image",
-            data: base64ImageFile,
-            mime_type: "image/jpeg"
-        }
-    ]
-});
+    contents: contents,
+  });
 
-
-
-console.log(interaction.output_text);
-
+  console.log(response.text);
+  
 }
 
 main();

@@ -2,13 +2,14 @@ const { GoogleGenAI } = require("@google/genai");
 const fs = require("fs");
 
 // Create a new instance of the GoogleGenAI class
+
 const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY,
 });
 
-const base64ImageFile = fs.readFileSync("/path/to/image.jpg", {
-  encoding: "base64",
-});
+//const base64ImageFile = fs.readFileSync("/path/to/image.jpg", {
+//  encoding: "base64",
+//});
 
 async function generateCaption(base64ImageFile) {
 
@@ -31,5 +32,6 @@ async function generateCaption(base64ImageFile) {
 
 }
 
-generateCaption(base64ImageFile);
+//generateCaption(base64ImageFile);
 
+module.exports = { generateCaption };

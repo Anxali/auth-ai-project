@@ -1,4 +1,5 @@
 const postModel = require('../models/post.model');
+const generateCaption = require('../service/ai.service').generateCaption;
 
 async function createPostController(req,res){
     const file = req.file;
@@ -6,7 +7,10 @@ async function createPostController(req,res){
 
     const base64ImageFile = Buffer.from(file.buffer).toString('base64');
 
-    console.log("base64ImageFile: ", base64ImageFile);
+    //console.log("base64ImageFile: ", base64ImageFile);
+
+    const caption = await generateCaption(base64ImageFile);
+    console.log("Generated caption: ", caption);
 }
 
 module.exports = {

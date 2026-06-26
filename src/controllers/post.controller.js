@@ -11,6 +11,9 @@ async function createPostController(req,res){
 
     const caption = await generateCaption(base64ImageFile);
     console.log("Generated caption: ", caption);
+    res.json({
+        caption
+    });
 }
 
 module.exports = {
